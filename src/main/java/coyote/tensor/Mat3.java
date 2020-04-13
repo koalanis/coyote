@@ -49,8 +49,6 @@ public class Mat3 {
         return new Vec3f(data[col], data[3 + col], data[3*2 + col]);
     }
 
-
-
     public static Mat3 mult(Mat3 a, Mat3 b) {
         Mat3 mat = new Mat3();
         for(int i = 0; i < 3; i++) {
