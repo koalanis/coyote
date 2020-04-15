@@ -21,7 +21,7 @@ public class Mat {
             throw new IndexOutOfBoundsException(
                     String.format("(%d x %d) is out of bounds of matrix dimensions (%d x %d)", row, col, rowDim, colDim));
 
-        return colDim*col + row;
+        return colDim*row + col;
     }
 
     public float get(int row, int col) {
@@ -36,7 +36,7 @@ public class Mat {
     public static Mat mult(Mat a, Mat b) {
         if(a.colDim != b.rowDim) {
             throw new IllegalArgumentException(
-                String.format("Cannot multiply a (%d x %d) by a (%d x %d)", a.rowDim, a.colDim, b.rowDim, b.colDim)
+                    String.format("Cannot multiply a (%d x %d) by a (%d x %d)", a.rowDim, a.colDim, b.rowDim, b.colDim)
             );
         }
 
@@ -57,6 +57,17 @@ public class Mat {
     }
 
 
+    public static Mat transpose(Mat a) {
+
+        Mat mat = new Mat(a.colDim, a.rowDim);
+        for(int r = 0; r < a.rowDim; r++) {
+            for(int c = 0; c < a.colDim; c++) {
+                mat.set(c, r, a.get(r, c));
+            }
+        }
+        return mat;
+    }
+
 
 
     @Override
@@ -66,7 +77,7 @@ public class Mat {
         build.append(String.format("Matrix (%d x %d)", this.rowDim, this.colDim)).append(System.lineSeparator());
         for(int r = 0; r < rowDim; r++) {
             for(int c = 0; c < colDim; c++) {
-            build.append("| ");
+                build.append("| ");
                 build.append(String.format(" %.3f ", this.get(r, c)));
             }
             build.append(" |").append(System.lineSeparator());

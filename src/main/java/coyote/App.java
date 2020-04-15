@@ -46,6 +46,9 @@ public class App {
             Mat vec_1 = Mat.mult(mat, vec);
             System.out.println(vec_1);
 
+            Mat vec_2= Mat.transpose(vec_1);
+            System.out.println(vec_2);
+
 
         } catch(Exception e) {
             e.printStackTrace(System.err);
