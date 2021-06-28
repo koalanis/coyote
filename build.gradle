@@ -10,10 +10,14 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
 }
 
 project.ext.lwjglVersion = "3.2.3"
 project.ext.lwjglNatives = "natives-windows"
+project.ext.jomlVersion = "1.9.24"
 
 repositories {
     mavenCentral()
@@ -29,6 +33,7 @@ dependencies {
 
 
     compile group: 'org.ejml', name: 'ejml-all', version: '0.39'
+    compile "org.joml:joml:${jomlVersion}"
 
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
@@ -103,4 +108,4 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-yoga::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-zstd::$lwjglNatives"
 }
-mainClassName = "coyote.App"
+mainClassName = "coyote.HelloWorld"

@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 public class Mat {
 
-    private int rowDim;
-    private int colDim;
-    private float[] data;
+    public int rowDim;
+    public int colDim;
+    protected float[] data;
 
 
 
@@ -32,6 +32,9 @@ public class Mat {
         this.data[this.getLoc(row, col)] = val;
     }
 
+    public float[] toData() {
+        return data;
+    }
 
     public static Mat mult(Mat a, Mat b) {
         if(a.colDim != b.rowDim) {
@@ -56,7 +59,6 @@ public class Mat {
         return mat;
     }
 
-
     public static Mat transpose(Mat a) {
 
         Mat mat = new Mat(a.colDim, a.rowDim);
@@ -75,17 +77,14 @@ public class Mat {
         StringBuilder build = new StringBuilder();
 
         build.append(String.format("Matrix (%d x %d)", this.rowDim, this.colDim)).append(System.lineSeparator());
-        for(int r = 0; r < rowDim; r++) {
-            for(int c = 0; c < colDim; c++) {
+        for(int c = 0; c < colDim; c++) {
+            for(int r = 0; r < rowDim; r++) {
                 build.append("| ");
-                build.append(String.format(" %.3f ", this.get(r, c)));
+                build.append(String.format(" %.5f ", this.get(r, c)));
             }
             build.append(" |").append(System.lineSeparator());
         }
-        build.append(System.lineSeparator());
-
-        build.append("Raw Data Layout :: ").append(System.lineSeparator())
-                .append(Arrays.toString(this.data));
+        build.append("Raw Data Layout :: ").append(Arrays.toString(this.data)).append(System.lineSeparator());
 
         return build.toString();
     }
