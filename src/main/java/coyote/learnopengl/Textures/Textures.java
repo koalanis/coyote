@@ -83,11 +83,9 @@ public class Textures {
             "void main()\n" +
             "{\n" +
             "\t// linearly interpolate between both textures (80% container, 20% awesomeface)\n" +
-            "vec4 color = vec4(ourColor) * mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.2);" +
-            "\tFragColor = ourColor;\n" +
+            "vec4 color =  mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.2);" +
+            "\tFragColor = color;\n" +
             "}";
-
-
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -190,10 +188,10 @@ public class Textures {
 
         float[] vertices = {
                 // positions          // colors           // texture coords
-                0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-                0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-                -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-                -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left
+                0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // top right
+                0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom right
+                -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, // bottom left
+                -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f  // top left
         };
 
         int[] indices = {
@@ -214,14 +212,10 @@ public class Textures {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
 
         // position attribute
-//        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-//        glEnableVertexAttribArray(0);
-//// color attribute
-//        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
-//        glEnableVertexAttribArray(1);
         glVertexAttribPointer(0, VERTEX_POS_SIZE, GL_FLOAT,false, VERTEX_STRIDE, 0);
         glEnableVertexAttribArray(0);
 
+        // color attribute
         glVertexAttribPointer(1, VERTEX_COLOR_SIZE, GL_FLOAT,false, VERTEX_STRIDE, VERTEX_POS_SIZE*BYTES_PER_FLOAT);
         glEnableVertexAttribArray(1);
 
@@ -229,56 +223,56 @@ public class Textures {
         glVertexAttribPointer(2, VERTEX_UV_SIZE, GL_FLOAT,false, VERTEX_STRIDE, (VERTEX_POS_SIZE+VERTEX_COLOR_SIZE)*BYTES_PER_FLOAT);
         glEnableVertexAttribArray(2);
 
-//        int texture1 = glGenTextures();
-//        glBindTexture(GL_TEXTURE_2D, texture1);
-//        // set the texture wrapping parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//        // set texture filtering parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//        int texture2 = glGenTextures();
+        int texture1 = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, texture1);
+        // set the texture wrapping parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // set texture filtering parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-//        STBImage.stbi_set_flip_vertically_on_load(true);
-//        IntBuffer w1 = BufferUtils.createIntBuffer(1);
-//        IntBuffer h1 = BufferUtils.createIntBuffer(1);
-//        IntBuffer d1 = BufferUtils.createIntBuffer(1);
-//        String path = "C:\\Users\\kaleb\\Documents\\GitHub\\coyote\\src\\main\\resources\\container.jpg";
-//        ByteBuffer image1 = STBImage.stbi_load(path, w1, h1, d1,4);
-//        if(Objects.nonNull(image1) && image1.capacity() > 0) {
-//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,w1.get(), h1.get(), 0, GL_RGB, GL_UNSIGNED_BYTE, image1);
-//            glGenerateMipmap(GL_TEXTURE_2D);
-//        } else {
-//            System.out.println("Failed to load texture");
-//        }
-//        STBImage.stbi_image_free(image1);
-//
-//        glBindTexture(GL_TEXTURE_2D, texture2);
-//        // set the texture wrapping parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//        // set texture filtering parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//
-//        IntBuffer w2 = BufferUtils.createIntBuffer(1);
-//        IntBuffer h2 = BufferUtils.createIntBuffer(1);
-//        IntBuffer d2 = BufferUtils.createIntBuffer(1);
-//        String path2 = "C:\\Users\\kaleb\\Documents\\GitHub\\coyote\\src\\main\\resources\\container.jpg";
-//        ByteBuffer image2 = STBImage.stbi_load(path2, w2, h2, d2,4);
-//        if(Objects.nonNull(image2) && image2.capacity() > 0) {
-//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w2.get(), h2.get(), 0, GL_RGB, GL_UNSIGNED_BYTE, image2);
-//            glGenerateMipmap(GL_TEXTURE_2D);
-//        } else {
-//            System.out.println("Failed to load texture");
-//        }
-//        STBImage.stbi_image_free(image2);
+        STBImage.stbi_set_flip_vertically_on_load(true);
+        IntBuffer w1 = BufferUtils.createIntBuffer(1);
+        IntBuffer h1 = BufferUtils.createIntBuffer(1);
+        IntBuffer d1 = BufferUtils.createIntBuffer(1);
+        String path = "C:\\Users\\kaleb\\Documents\\GitHub\\coyote\\src\\main\\resources\\container.jpg";
+        ByteBuffer image1 = STBImage.stbi_load(path, w1, h1, d1,0);
+        if(Objects.nonNull(image1) && image1.capacity() > 0) {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,w1.get(), h1.get(), 0, GL_RGB, GL_UNSIGNED_BYTE, image1);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        } else {
+            System.out.println("Failed to load texture");
+        }
+        STBImage.stbi_image_free(image1);
+        int texture2 = glGenTextures();
+
+        glBindTexture(GL_TEXTURE_2D, texture2);
+        // set the texture wrapping parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // set texture filtering parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        IntBuffer w2 = BufferUtils.createIntBuffer(1);
+        IntBuffer h2 = BufferUtils.createIntBuffer(1);
+        IntBuffer d2 = BufferUtils.createIntBuffer(1);
+        String path2 = "C:\\Users\\kaleb\\Documents\\GitHub\\coyote\\src\\main\\resources\\awesomeface.png";
+        ByteBuffer image2 = STBImage.stbi_load(path2, w2, h2, d2,0);
+
+        if(Objects.nonNull(image2) && image2.capacity() > 0) {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w2.get(), h2.get(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image2);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        } else {
+            System.out.println("Failed to load texture");
+        }
+
+        STBImage.stbi_image_free(image2);
 
         glUseProgram(shaderProgram);
-
-//        glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
-//        glUniform1i(glGetUniformLocation(shaderProgram, "texture2"), 1);
-//
+        glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
+        glUniform1i(glGetUniformLocation(shaderProgram, "texture2"), 1);
 
         // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -296,10 +290,10 @@ public class Textures {
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
 
-//            glActiveTexture(GL_TEXTURE0);
-//            glBindTexture(GL_TEXTURE_2D, texture1);
-//            glActiveTexture(GL_TEXTURE1);
-//            glBindTexture(GL_TEXTURE_2D, texture2);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, texture1);
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, texture2);
 
             glUseProgram(shaderProgram);
             glBindVertexArray(vao);
